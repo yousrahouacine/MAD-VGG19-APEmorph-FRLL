@@ -1,0 +1,17 @@
+
+=== APEmorph Evaluation (FC7 – 4096D) ===
+
+--- Threshold = 0.5 ---
+Accuracy : 0.7411
+APCER    : 0.1360
+BPCER    : 0.1230
+ACER     : 0.1295
+
+--- Optimal Threshold ---
+Threshold* : 0.4288
+Accuracy*  : 0.7337
+APCER*     : 0.1299
+BPCER*     : 0.1364
+ACER*      : 0.1332
+EER        : 0.2665
+AUC        : 0.8113
