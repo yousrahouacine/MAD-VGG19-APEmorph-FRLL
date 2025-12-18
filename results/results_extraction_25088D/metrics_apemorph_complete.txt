@@ -1,0 +1,17 @@
+
+=== APEmorph Evaluation ===
+
+--- Threshold = 0.5 ---
+Accuracy : 0.7435
+APCER    : 0.1481
+BPCER    : 0.1084
+ACER     : 0.1282
+
+--- Optimal Threshold ---
+Threshold* : 0.3017
+Accuracy*  : 0.7382
+APCER*     : 0.1279
+BPCER*     : 0.1339
+ACER*      : 0.1309
+EER        : 0.2617
+AUC        : 0.8287

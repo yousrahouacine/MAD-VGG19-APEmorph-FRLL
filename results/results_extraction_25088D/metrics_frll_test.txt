@@ -1,0 +1,17 @@
+
+=== FRLL Evaluation (APEmorph-trained VGG19) ===
+
+--- Threshold = 0.5 ---
+Accuracy : 0.4065
+APCER    : 0.5628
+BPCER    : 0.0307
+ACER     : 0.2968
+
+--- Optimal Threshold ---
+Threshold* : 0.2032
+Accuracy*  : 0.5242
+APCER*     : 0.4351
+BPCER*     : 0.0408
+ACER*      : 0.2379
+EER        : 0.4755
+AUC        : 0.5226
