@@ -20,15 +20,15 @@ from morph_dataset import MorphDataset
 WORKSPACE = Path("/content/drive/MyDrive/workspace3")
 
 FRLL_CSV = WORKSPACE / "frll_test_mtcnn.csv"
-MODEL_PATH = WORKSPACE / "vgg19_apemorph_fc7.pth"
+MODEL_PATH = WORKSPACE / "vgg19_apemorph_fc7.pth"   # <<< IMPORTANT
 
-METRICS_TXT = WORKSPACE / "metrics_frll_fc7.txt"
+METRICS_TXT = WORKSPACE / "metrics_frll_test.txt"
 
-DIST_05 = WORKSPACE / "frll_fc7_dist_thr_0.5.png"
-DIST_OPT = WORKSPACE / "frll_fc7_dist_thr_optimal.png"
+DIST_05 = WORKSPACE / "frll_dist_thr_0.5.png"
+DIST_OPT = WORKSPACE / "frll_dist_thr_optimal.png"
 
-ROC_05 = WORKSPACE / "frll_fc7_roc_thr_0.5.png"
-ROC_OPT = WORKSPACE / "frll_fc7_roc_thr_optimal.png"
+ROC_05 = WORKSPACE / "frll_roc_thr_0.5.png"
+ROC_OPT = WORKSPACE / "frll_roc_thr_optimal.png"
 
 
 # ======================================================
@@ -62,7 +62,7 @@ frll_loader = DataLoader(
 
 
 # ======================================================
-# LOAD MODEL (FC7 ARCHITECTURE)
+# LOAD MODEL (FC7 – SAME AS TRAINING)
 # ======================================================
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
@@ -80,7 +80,7 @@ model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
 model = model.to(device)
 model.eval()
 
-print("Loaded FC7 VGG19 model")
+print("Loaded FC7 VGG19 model (APEmorph-trained)")
 
 
 # ======================================================
@@ -89,7 +89,7 @@ print("Loaded FC7 VGG19 model")
 scores, labels = [], []
 
 with torch.no_grad():
-    for images, gt in tqdm(frll_loader, ncols=100, desc="Testing FRLL (FC7)"):
+    for images, gt in tqdm(frll_loader, ncols=100, desc="Testing FRLL"):
         images = images.to(device)
         outputs = model(images)
         probs = torch.softmax(outputs, dim=1)
@@ -165,7 +165,7 @@ def plot_distribution(thr, path, title):
     plt.figure(figsize=(7, 6))
     plt.hist(scores[labels == 0], bins=40, alpha=0.6, label="Bonafide")
     plt.hist(scores[labels == 1], bins=40, alpha=0.6, label="Morph")
-    plt.axvline(thr, color="red", linestyle="--")
+    plt.axvline(thr, color="red", linestyle="--", label=f"Threshold = {thr:.3f}")
     plt.xlabel("Morph score")
     plt.ylabel("Frequency")
     plt.title(title)
@@ -174,8 +174,8 @@ def plot_distribution(thr, path, title):
     plt.savefig(path, dpi=300)
     plt.close()
 
-plot_distribution(0.5, DIST_05, "FRLL FC7 Score Distribution (Threshold = 0.5)")
-plot_distribution(thr_opt, DIST_OPT, "FRLL FC7 Score Distribution (Optimal Threshold)")
+plot_distribution(0.5, DIST_05, "FRLL Score Distribution (Threshold = 0.5)")
+plot_distribution(thr_opt, DIST_OPT, "FRLL Score Distribution (Optimal Threshold)")
 
 
 def plot_roc(path, title):
@@ -192,7 +192,7 @@ def plot_roc(path, title):
     plt.savefig(path, dpi=300)
     plt.close()
 
-plot_roc(ROC_05, "FRLL FC7 ROC Curve (Threshold = 0.5)")
-plot_roc(ROC_OPT, "FRLL FC7 ROC Curve (Optimal Threshold)")
+plot_roc(ROC_05, "FRLL ROC Curve (Threshold = 0.5)")
+plot_roc(ROC_OPT, "FRLL ROC Curve (Optimal Threshold)")
 
-print("FRLL FC7 evaluation completed")
+print("FRLL evaluation completed")
